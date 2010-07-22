@@ -27,7 +27,8 @@ def main
       repeated += 1
     else
       repeated = 0
-      
+    end
+    
     puts "Idle: #{idle}, repeated #{repeated}" if DEBUG
 
     if repeated == MAX_REPEATS
