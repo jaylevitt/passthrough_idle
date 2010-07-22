@@ -1,11 +1,12 @@
 require 'socket'
 require 'Win32API'
 
-DEBUG = true
-IDLE_SERVER = "home.jay.fm"
 IDLE_PORT = 12389
+IDLE_SERVER = "example.com"
+DEBUG = true
 INTERVAL = 1
 SLACK = 10
+MAX_REPEATS = 3
 
 KEYEVENTF_KEYDOWN = 0
 KEYEVENTF_KEYUP = 2
@@ -19,9 +20,20 @@ def main
   loop do
     puts Time.now if DEBUG
     s.puts "pull"
+    last_idle = idle
     idle = s.gets.to_i
-    puts "Idle: #{idle}" if DEBUG
+    
+    if last_idle == idle
+      repeated += 1
+    else
+      repeated = 0
+      
+    puts "Idle: #{idle}, repeated #{repeated}" if DEBUG
 
+    if repeated == MAX_REPEATS
+      abort
+    end
+      
     # This could be smarter... trouble is we can't assume that the 
     # mac's clock is in sync with ours, or that its sleep interval
     # is related to ours
