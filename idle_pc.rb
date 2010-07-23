@@ -23,6 +23,7 @@ def main
 
   s.gets # throw away greeting
   idle = 0 # there must be a more idiomatic way to do this
+  repeated = 0
   
   loop do
     puts Time.now if DEBUG
