@@ -1,8 +1,8 @@
+require 'rubygems'
 require 'socket'
 require 'Win32API'
+require 'trollop'
 
-IDLE_PORT = 12389
-IDLE_SERVER = "example.com"
 DEBUG = true
 INTERVAL = 1
 SLACK = 10
@@ -14,7 +14,13 @@ KEYEVENTF_KEYUP = 2
 KEY_RALT = 165
 
 def main
-  s = TCPSocket.open(IDLE_SERVER, IDLE_PORT)
+  opts = Trollop::options do
+    opt :host, "idle server host", :type => :string, :required
+    opt :port, "idle server port", :type => :int, :default => 12389
+  end
+
+  s = TCPSocket.open(opts[:host], opts[:port])
+
   s.gets # throw away greeting
 
   loop do

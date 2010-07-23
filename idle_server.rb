@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
+require 'rubygems'
 require 'gserver'
-
-IDLE_PORT = 12389
+require 'trollop'
 
 class IdleServer < GServer
   def initialize(*args)
@@ -31,6 +31,10 @@ class IdleServer < GServer
   end
 end
 
-server = IdleServer.new(IDLE_PORT, "0.0.0.0")
+opts = Trollop::options do
+  opt :port, "idle server port", :type => :int, :default => 12389
+end
+
+server = IdleServer.new(opts[:port], "0.0.0.0")
 server.start
 server.join

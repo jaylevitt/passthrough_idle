@@ -1,13 +1,18 @@
 #!/usr/bin/ruby
+require 'rubygems'
 require 'socket'
+require 'trollop'
 
-IDLE_PORT = 12389
-IDLE_SERVER = "home.jay.fm"
 INTERVAL = 1
 DEBUG = TRUE
 
 def main
-  s = TCPSocket.open(IDLE_SERVER, IDLE_PORT)
+  opts = Trollop::options do
+    opt :host, "idle server host", :type => :string, :required => true
+    opt :port, "idle server port", :type => :int, :default => 12389
+  end
+
+  s = TCPSocket.open(opts[:host], opts[:port])
   
   loop do
     idle = `/usr/local/bin/idler`.to_i
