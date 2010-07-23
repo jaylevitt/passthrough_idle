@@ -22,11 +22,12 @@ def main
   s = TCPSocket.open(opts[:host], opts[:port])
 
   s.gets # throw away greeting
-
+  idle = 0 # there must be a more idiomatic way to do this
+  
   loop do
     puts Time.now if DEBUG
     s.puts "pull"
-    last_idle = idle || 0
+    last_idle = idle
     idle = s.gets.to_i
     
     if last_idle == idle
