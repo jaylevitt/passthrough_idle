@@ -26,7 +26,7 @@ def main
   loop do
     puts Time.now if DEBUG
     s.puts "pull"
-    last_idle = idle
+    last_idle = idle || 0
     idle = s.gets.to_i
     
     if last_idle == idle
