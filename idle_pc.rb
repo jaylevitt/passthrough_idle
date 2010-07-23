@@ -31,7 +31,7 @@ def main
     last_idle = idle
     idle = s.gets.to_i
     
-    if last_idle == idle
+    if last_idle == idle and idle != 0
       repeated += 1
     else
       repeated = 0
