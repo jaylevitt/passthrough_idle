@@ -15,7 +15,7 @@ KEY_RALT = 165
 
 def main
   opts = Trollop::options do
-    opt :host, "idle server host", :type => :string, :required
+    opt :host, "idle server host", :type => :string, :required => true
     opt :port, "idle server port", :type => :int, :default => 12389
   end
 
