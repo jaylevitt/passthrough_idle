@@ -21,7 +21,8 @@ def main
 
   s = TCPSocket.open(opts[:host], opts[:port])
 
-  s.gets # throw away greeting
+  abort unless s.gets == "passthrough_idle server 0.1\n"
+  
   idle = 0 # there must be a more idiomatic way to do this
   repeated = 0
   
