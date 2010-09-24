@@ -26,7 +26,7 @@ def main
   
   loop do
     puts Time.now if DEBUG
-    last_idle = Nestful.gets url
+    last_idle = Nestful.get url
     idle = s.gets.to_i
     
     if last_idle == idle and idle != 0
