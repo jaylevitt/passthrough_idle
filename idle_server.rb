@@ -5,7 +5,7 @@ require 'sinatra'
 $idle_seconds = 0
 
 get '/' do
-  "Last known idle time: #{$idle_seconds}\n"
+  "#{$idle_seconds}\n"
 end
 
 put '/:idle' do
