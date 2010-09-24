@@ -6,7 +6,6 @@ require 'trollop'
 DEBUG = true
 INTERVAL = 1
 SLACK = 10
-MAX_REPEATS = 3
 
 KEYEVENTF_KEYDOWN = 0
 KEYEVENTF_KEYUP = 2
@@ -22,25 +21,13 @@ def main
   url = "http://#{opts[:host]}:#{opts[:port]}/"
 
   idle = 0 # there must be a more idiomatic way to do this
-  repeated = 0
   
   loop do
     puts Time.now if DEBUG
-    last_idle = idle
     idle = Nestful.get(url).to_i
     
-    if last_idle == idle and idle != 0
-      repeated += 1
-    else
-      repeated = 0
-    end
-    
-    puts "Idle: #{idle}, repeated #{repeated}" if DEBUG
+    puts "Idle: #{idle}" if DEBUG
 
-    if repeated == MAX_REPEATS
-      abort
-    end
-      
     # This could be smarter... trouble is we can't assume that the 
     # mac's clock is in sync with ours, or that its sleep interval
     # is related to ours
