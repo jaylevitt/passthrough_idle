@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 require 'rubygems'
-require 'socket'
+require 'nestful'
 require 'trollop'
 
 INTERVAL = 1
@@ -12,19 +12,12 @@ def main
     opt :port, "idle server port", :type => :int, :default => 12389
   end
 
-  s = TCPSocket.open(opts[:host], opts[:port])
+  url = "http://#{opts[:host]}:#{opts[:port]}"
   
   loop do
     idle = `/usr/local/bin/idler`.to_i
-    puts "#{Time.now} Setting idle: #{idle}" if DEBUG
-
-    begin 
-      s.puts "set #{idle}\n"
-    rescue
-      puts "#{Time.now} Reopening socket"
-      s.close
-      s = TCPSocket.open(IDLE_SERVER, IDLE_PORT)
-    end
+    puts "#{Time.now} Setting idle: #{url}/#{idle}" if DEBUG
+    Nestful.put "#{url}/#{idle}", :format => :form
 
     sleep INTERVAL
   end

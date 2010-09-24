@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'socket'
+require 'nestful'
 require 'Win32API'
 require 'trollop'
 
@@ -19,17 +19,14 @@ def main
     opt :port, "idle server port", :type => :int, :default => 12389
   end
 
-  s = TCPSocket.open(opts[:host], opts[:port])
+  url = "http://#{opts[:host]}:#{opts[:port]}/"
 
-  abort unless s.gets == "passthrough_idle server 0.1\n"
-  
   idle = 0 # there must be a more idiomatic way to do this
   repeated = 0
   
   loop do
     puts Time.now if DEBUG
-    s.puts "pull"
-    last_idle = idle
+    last_idle = Nestful.gets url
     idle = s.gets.to_i
     
     if last_idle == idle and idle != 0
